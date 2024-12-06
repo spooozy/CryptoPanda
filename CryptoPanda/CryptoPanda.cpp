@@ -951,12 +951,19 @@ int GetFileItemClickPos(int x, int y) {
 
 bool DeleteFileFromStorage(int fileId) {
     std::wstring filePath = storages[storageID].path + L"\\" + filesInStorage[fileId].encodedName + L".txt";
+
+    DWORD attributes = GetFileAttributes(filePath.c_str());
+    if (attributes != INVALID_FILE_ATTRIBUTES) {
+        SetFileAttributes(filePath.c_str(), attributes & ~FILE_ATTRIBUTE_READONLY);
+    }
+
     if (DeleteFile(filePath.c_str())) {
         MessageBox(viewStorageWnd, L"File deleted successfully.", L"Info", MB_OK);
         ListView_DeleteItem(fileInStorageListWnd, fileId);
         return true;
     }
     MessageBox(viewStorageWnd, L"Failed to delete the file.", L"Error", MB_OK | MB_ICONERROR);
+    SetFileAttributes(filePath.c_str(), attributes);
     return false;
 }
 

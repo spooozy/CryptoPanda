@@ -73,8 +73,7 @@ std::wstring Encoder::EncryptLine(const std::wstring& input) {
 
     for (size_t i = 0; i < input.size(); ++i) {
         shift();
-        output[i] = static_cast<wchar_t>(static_cast<uint8_t>(input[i]) ^ Key); // XOR
-    }
+        output[i] = input[i] ^ Key;
 
     return output;
 }
