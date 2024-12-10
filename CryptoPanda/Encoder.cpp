@@ -74,6 +74,8 @@ std::wstring Encoder::EncryptLine(const std::wstring& input) {
     for (size_t i = 0; i < input.size(); ++i) {
         shift();
         output[i] = input[i] ^ Key;
+    }
 
-    return output;
+        return output;
 }
+
